@@ -1,0 +1,5 @@
+{
+  "status": "superseded-before-exposure",
+  "reason": "GitHub's public Events feed did not issue a durable tag-push event ID; no developer or inventory turn had started.",
+  "replacement": "a fresh run using the server-side precommit tag attestor"
+}

@@ -1,0 +1,95 @@
+name: Attest B4 precommit tag
+
+on:
+  push:
+    tags:
+      - "b4/**/precommit"
+
+permissions:
+  contents: read
+
+jobs:
+  attest:
+    name: Verify signed tag and bound record
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the exact tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify custody signature and record anchor
+        shell: bash
+        run: |
+          sed 's/^/john@viz.pro /' keys/b4-custody-ed25519.pub > /tmp/b4-allowed-signers
+          git -c gpg.format=ssh \
+              -c gpg.ssh.allowedSignersFile=/tmp/b4-allowed-signers \
+              tag -v "$GITHUB_REF_NAME"
+
+          install -d -m 700 /tmp/b4-event-receipt
+          python3 - <<'PY'
+          import datetime
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import subprocess
+
+          ref = os.environ["GITHUB_REF_NAME"]
+          parts = ref.split("/")
+          if len(parts) != 3 or parts[0] != "b4" or parts[2] != "precommit":
+              raise SystemExit(f"unexpected precommit tag name: {ref}")
+          run_id = parts[1]
+          record_path = pathlib.Path("runs") / run_id / "b4_precommit_record.json"
+          record = record_path.read_bytes()
+          anchor = hashlib.sha256(record).hexdigest()
+          tag_message = subprocess.check_output(
+              ["git", "for-each-ref", f"refs/tags/{ref}", "--format=%(contents:subject)"],
+              text=True,
+          ).strip()
+          if tag_message != anchor:
+              raise SystemExit(f"tag message {tag_message} != record anchor {anchor}")
+          tag_object = subprocess.check_output(
+              ["git", "rev-parse", f"{ref}^{{tag}}"], text=True
+          ).strip()
+          commit = subprocess.check_output(
+              ["git", "rev-parse", f"{ref}^{{}}"], text=True
+          ).strip()
+          receipt = {
+              "protocol": "b4-precommit-tag-event-v1",
+              "event": "precommit",
+              "run_id": run_id,
+              "anchor_sha256": anchor,
+              "record_path": str(record_path),
+              "tag": ref,
+              "tag_object": tag_object,
+              "commit": commit,
+              "custody_key_fingerprint": "SHA256:BkZtIZjnU1pK6toWY/ZFWBqsX4fs2Epyvjsp/gU8Cck",
+              "server_event": {
+                  "provider": "github-actions",
+                  "repository": os.environ["GITHUB_REPOSITORY"],
+                  "workflow": os.environ["GITHUB_WORKFLOW"],
+                  "workflow_run_id": os.environ["GITHUB_RUN_ID"],
+                  "workflow_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+                  "event_name": os.environ["GITHUB_EVENT_NAME"],
+                  "ref": os.environ["GITHUB_REF"],
+                  "sha": os.environ["GITHUB_SHA"],
+                  "recorded_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              },
+          }
+          out = pathlib.Path("/tmp/b4-event-receipt/precommit_event_receipt.json")
+          out.write_text(json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n")
+          print(json.dumps(receipt, sort_keys=True))
+          PY
+
+          cd /tmp/b4-event-receipt
+          sha256sum precommit_event_receipt.json > SHA256SUMS
+
+      - name: Upload server event receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: b4-precommit-event-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/b4-event-receipt/
+          if-no-files-found: error
+          retention-days: 90
