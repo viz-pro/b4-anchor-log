@@ -1,0 +1,12 @@
+{
+  "event": "precommit",
+  "run_id": "20260722T062116Z",
+  "anchor_sha256": "23de05d4abe20161faf20561e6ed13b56d7907cae98f1de4b3ed3b0acef14e16",
+  "record_path": "runs/20260722T062116Z/b4_precommit_record.json",
+  "allocation": {
+    "repository": "viz-pro/b4-blind-run",
+    "workflow_run_id": "29896416844",
+    "artifact": "b4-session-allocation-29896416844-1",
+    "receipt_sha256": "2dce94be537fe03fcc1fc48d54bbc1da02e11f127332a30dd09dcce44ab5c95e"
+  }
+}
