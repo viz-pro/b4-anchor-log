@@ -1,0 +1,77 @@
+name: Attest B4 phase tag
+
+on:
+  push:
+    tags:
+      - "b4/**/attestation"
+      - "b4/**/seal"
+
+permissions:
+  contents: read
+
+jobs:
+  attest:
+    name: Verify signed phase tag and bound record
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the exact tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify custody signature and phase anchor
+        shell: bash
+        run: |
+          git fetch --no-tags --force origin \
+            "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+          sed 's/^/john@viz.pro /' keys/b4-custody-ed25519.pub > /tmp/b4-allowed-signers
+          git -c gpg.format=ssh \
+              -c gpg.ssh.allowedSignersFile=/tmp/b4-allowed-signers \
+              tag -v "$GITHUB_REF_NAME"
+
+          install -d -m 700 /tmp/b4-event-receipt
+          python3 - <<'PY'
+          import datetime, hashlib, json, os, pathlib, subprocess
+
+          ref=os.environ['GITHUB_REF_NAME']
+          parts=ref.split('/')
+          if len(parts)!=3 or parts[0]!='b4' or parts[2] not in {'attestation','seal'}:
+              raise SystemExit(f'unexpected phase tag: {ref}')
+          run_id,phase=parts[1],parts[2]
+          filename='attestation_binding.json' if phase=='attestation' else 'seal_record.json'
+          record_path=pathlib.Path('runs')/run_id/filename
+          raw=record_path.read_bytes()
+          anchor=hashlib.sha256(raw).hexdigest()
+          subject=subprocess.check_output(
+              ['git','for-each-ref',f'refs/tags/{ref}','--format=%(contents:subject)'],text=True).strip()
+          if subject!=anchor:
+              raise SystemExit(f'tag subject {subject} != phase anchor {anchor}')
+          tag_object=subprocess.check_output(['git','rev-parse',f'{ref}^{{tag}}'],text=True).strip()
+          commit=subprocess.check_output(['git','rev-parse',f'{ref}^{{}}'],text=True).strip()
+          receipt={
+              'protocol':'b4-phase-tag-event-v1','event':phase,'run_id':run_id,
+              'anchor_sha256':anchor,'record_path':str(record_path),'tag':ref,
+              'tag_object':tag_object,'commit':commit,
+              'custody_key_fingerprint':'SHA256:BkZtIZjnU1pK6toWY/ZFWBqsX4fs2Epyvjsp/gU8Cck',
+              'server_event':{
+                  'provider':'github-actions','repository':os.environ['GITHUB_REPOSITORY'],
+                  'workflow':os.environ['GITHUB_WORKFLOW'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],
+                  'workflow_run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],
+                  'event_name':os.environ['GITHUB_EVENT_NAME'],'ref':os.environ['GITHUB_REF'],
+                  'sha':os.environ['GITHUB_SHA'],
+                  'recorded_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}}
+          out=pathlib.Path('/tmp/b4-event-receipt/phase_event_receipt.json')
+          out.write_text(json.dumps(receipt,sort_keys=True,separators=(',',':'))+'\n')
+          print(json.dumps(receipt,sort_keys=True))
+          PY
+          cd /tmp/b4-event-receipt
+          sha256sum phase_event_receipt.json > SHA256SUMS
+
+      - name: Upload server event receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: b4-phase-event-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/b4-event-receipt/
+          if-no-files-found: error
+          retention-days: 90
