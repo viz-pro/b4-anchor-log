@@ -1,0 +1,9 @@
+{
+  "status": "superseded-before-exposure",
+  "reason": "The live app-server retained the allocation, but a new WebSocket client could read the zero-turn thread while its cross-client turn/start never materialized; the attestation timed out and no package was released.",
+  "failed_dispatch_run": {
+    "provider": "github-actions",
+    "workflow_run_id": "29901459257"
+  },
+  "replacement": "a fresh precommit using one persistent WebSocket client from allocation through every turn"
+}
