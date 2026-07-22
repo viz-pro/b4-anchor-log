@@ -1,0 +1,9 @@
+{
+  "status": "superseded-before-exposure",
+  "reason": "The allocation artifact proved turns_started=0 but contained no rollout because zero-turn app-server threads are not materialized after server shutdown; the exact session could not be resumed and no developer or inventory turn started.",
+  "failed_dispatch_run": {
+    "provider": "github-actions",
+    "workflow_run_id": "29900618014"
+  },
+  "replacement": "a fresh precommit whose platform sessions remain inside one live app-server through both staged turns"
+}

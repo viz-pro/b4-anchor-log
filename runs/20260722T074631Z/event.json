@@ -1,0 +1,21 @@
+{
+  "event": "precommit",
+  "run_id": "20260722T074631Z",
+  "anchor_sha256": "99cfab833ee24563d7296e5dceb1c0e91b0b701c98d88848ea5c23e51553c445",
+  "record_path": "runs/20260722T074631Z/b4_precommit_record.json",
+  "custody_signing_key": {
+    "path": "keys/b4-custody-ed25519.pub",
+    "fingerprint": "SHA256:BkZtIZjnU1pK6toWY/ZFWBqsX4fs2Epyvjsp/gU8Cck"
+  },
+  "allocation": {
+    "repository": "viz-pro/b4-blind-run",
+    "workflow_run_id": "29901459257",
+    "artifact": "b4-live-allocation-29901459257-1",
+    "receipt_sha256": "8d00fdecbcc476f10c8418ea9f8325b8e9f2e66369e9593120dbe88ddb73a763",
+    "lifecycle": "same live app-server retained through dispatch"
+  },
+  "server_attestation": {
+    "workflow": ".github/workflows/attest-precommit-tag.yml",
+    "trigger": "push tag b4/20260722T074631Z/precommit"
+  }
+}
