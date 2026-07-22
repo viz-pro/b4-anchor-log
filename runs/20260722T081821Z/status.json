@@ -1,0 +1,6 @@
+{
+  "status": "superseded-before-exposure",
+  "reason": "The exact developer attempted the exact attestation twice, but the hosted runner rejected bubblewrap loopback setup (RTM_NEWADDR); the turn stopped without reading tools or package and no package was downloaded.",
+  "failed_dispatch_run": {"provider": "github-actions", "workflow_run_id": "29903482576"},
+  "replacement": "a fresh precommit using workspaceWrite with networkAccess enabled to avoid the hosted loopback namespace restriction"
+}
