@@ -1,0 +1,6 @@
+{
+  "status": "superseded-before-exposure",
+  "reason": "Network namespace setup was avoided, but the bundled bubblewrap still lacked permission to establish its uid map; the exact attestation write failed and no package was downloaded.",
+  "failed_dispatch_run": {"provider": "github-actions", "workflow_run_id": "29904131621"},
+  "replacement": "a fresh precommit after installing distribution bubblewrap and loading the documented Ubuntu 24.04 AppArmor profile"
+}
