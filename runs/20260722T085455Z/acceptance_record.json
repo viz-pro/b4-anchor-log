@@ -1,0 +1,63 @@
+{
+  "protocol": "b4-acceptance-record-v2",
+  "run_id": "20260722T085455Z",
+  "verdict": "caught",
+  "precommit_intact": true,
+  "frozen_sources_verified": 35,
+  "package_manifest_sha256": "da175f96f9067157fe5ffce28e55c554e5aa1c55aa46c0ee57d6e458edba99fd",
+  "roles": {
+    "developer": "019f8909-832b-7d10-9cb7-df6c7c33ab65",
+    "second_role_inventory": "019f8909-8325-7e52-9316-2f4c0b231071"
+  },
+  "chronology": {
+    "precommit": {
+      "anchor_sha256": "b593ef2f1382faa48624864d204c6252c6057248762d7e9b747342929535ca6a",
+      "tag": "b4/20260722T085455Z/precommit",
+      "tag_object": "49661d9ac481f7dc8fed6ad6bb4b0d7f9ddd5d3f",
+      "server_event_id": "github-actions:29906442665"
+    },
+    "attestation": {
+      "binding_anchor_sha256": "72433cb4263c72eee8b77656e2f6e5bb15b1c200843e661e0cc6a89c57ce2303",
+      "developer_attestation_sha256": "4dacb52e24e49c0f8ca74980dbdf8d48e91743cf98d0349f52cf56e7b18f8627",
+      "initial_workspace_manifest_sha256": "f2da899abd757070ba963e050b4a6189628cef16a4522f00aa0580d90fcad636",
+      "tag": "b4/20260722T085455Z/attestation",
+      "tag_object": "25c7c8d2e12445e887a5e7ee204502de770ed04a",
+      "server_event_id": "github-actions:29906591803"
+    },
+    "seal": {
+      "anchor_sha256": "b1040522270f3d2b31004633c223154b43a11fd57a4f590c0272e02955f5559a",
+      "tag": "b4/20260722T085455Z/seal",
+      "tag_object": "4dc004f9f4ef9196e21bd9214ee2f2f36989e93d",
+      "server_event_id": "github-actions:29907233928"
+    }
+  },
+  "anchor_log": {
+    "repository": "viz-pro/b4-anchor-log",
+    "tag_ruleset_id": 19529270,
+    "custody_key_fingerprint": "SHA256:BkZtIZjnU1pK6toWY/ZFWBqsX4fs2Epyvjsp/gU8Cck"
+  },
+  "dispatch": {
+    "repository": "viz-pro/b4-blind-run",
+    "workflow_run_id": "29905855590",
+    "workflow_run_attempt": "1",
+    "conclusion": "success",
+    "final_artifact": "b4-live-final-29905855590-1",
+    "root_checksums_sha256": "f67ac6b51c86f5c63da794eb5b61c8a0c2f11cc6de9ab163ffc524a85d93bf54",
+    "sealed_candidate_checksums_sha256": "18dc155f3826e49fd0c4e780ced51422995fb3c74139d8fc6a217c967cd3c919"
+  },
+  "blind_results": {
+    "coverage_receipt_sha256": "6c2ec97a190bb67fd296d8130db2ac8ffa8b4e5cf1ba404afe95fad55a049fa8",
+    "coverage": {"package_items": 35, "covered": 35, "uncovered": 0, "findings": 0},
+    "second_role_inventory_sha256": "5ac63bc347facb23c18b49b101cdec415be88e2ebdf93e1a1652570bcfaef8e9",
+    "second_role_receipt_sha256": "028fc2767edca84502a54b33666697ef86a9e3194538bdb0dc4140c5f689067b",
+    "inventory_complete": true,
+    "concurs_caught": true,
+    "cue_depends_on_omission": true
+  },
+  "post_reveal": {
+    "adjudication_receipt_sha256": "730f65e24d878a58600ca66a7ebdbcd3fd12895e4026e5323041945907735596",
+    "adjudication_violations": 0,
+    "validator_rerun_receipt_sha256": "5daf44d9f9f6c53c8d5d5d66ce6adedd9e8ae140d70355701b56ad68e34e2357",
+    "validator_rerun_result": "pass"
+  }
+}
