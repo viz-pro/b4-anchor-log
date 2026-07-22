@@ -1,0 +1,22 @@
+{
+  "event": "precommit",
+  "run_id": "20260722T085455Z",
+  "anchor_sha256": "b593ef2f1382faa48624864d204c6252c6057248762d7e9b747342929535ca6a",
+  "record_path": "runs/20260722T085455Z/b4_precommit_record.json",
+  "custody_signing_key": {
+    "path": "keys/b4-custody-ed25519.pub",
+    "fingerprint": "SHA256:BkZtIZjnU1pK6toWY/ZFWBqsX4fs2Epyvjsp/gU8Cck"
+  },
+  "allocation": {
+    "repository": "viz-pro/b4-blind-run",
+    "workflow_run_id": "29905855590",
+    "artifact": "b4-live-allocation-29905855590-1",
+    "receipt_sha256": "c19692a5a9f12200f6fa2815e654439257d713c393197d2ad6e5cad2a9be7e80",
+    "lifecycle": "single app-server client with distribution bubblewrap and loaded Ubuntu 24.04 AppArmor profile",
+    "runner_commit": "3105c1254702b2edd272002e5ab56c4f98004794"
+  },
+  "server_attestation": {
+    "workflow": ".github/workflows/attest-precommit-tag.yml",
+    "trigger": "push tag b4/20260722T085455Z/precommit"
+  }
+}

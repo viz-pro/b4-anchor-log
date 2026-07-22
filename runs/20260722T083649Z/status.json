@@ -1,0 +1,9 @@
+{
+  "status": "superseded-before-reveal",
+  "reason": "The exact-session developer completed and the coverage gate passed, but the independent second-role inventory included the top-level ./llms-bin file that the B4 canonical manifest explicitly excludes. The workflow stopped before seal and no custody secret or rubric was revealed.",
+  "failed_dispatch_run": {
+    "provider": "github-actions",
+    "workflow_run_id": "29904698339"
+  },
+  "replacement": "a fresh precommit using a hash-bound inventory brief that explicitly excludes only top-level ./llms-bin"
+}
