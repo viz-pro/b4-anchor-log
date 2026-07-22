@@ -1,0 +1,27 @@
+{
+  "allocation": {
+    "artifact": "b4-live-allocation-29905855590-1",
+    "receipt_sha256": "c19692a5a9f12200f6fa2815e654439257d713c393197d2ad6e5cad2a9be7e80",
+    "repository": "viz-pro/b4-blind-run",
+    "workflow_run_id": "29905855590"
+  },
+  "attestation_sha256": "4dacb52e24e49c0f8ca74980dbdf8d48e91743cf98d0349f52cf56e7b18f8627",
+  "developer_session_id": "019f8909-832b-7d10-9cb7-df6c7c33ab65",
+  "exact_session_receipt_sha256": "33d839c42df19ef837ce35e9cccc170aeee95e1be5fe5eab150d316a0c352d28",
+  "initial_workspace_manifest_sha256": "f2da899abd757070ba963e050b4a6189628cef16a4522f00aa0580d90fcad636",
+  "precommit_anchor": "b593ef2f1382faa48624864d204c6252c6057248762d7e9b747342929535ca6a",
+  "precommit_event": {
+    "server_workflow_run_id": "29906442665",
+    "tag": "b4/20260722T085455Z/precommit",
+    "tag_object": "49661d9ac481f7dc8fed6ad6bb4b0d7f9ddd5d3f"
+  },
+  "protocol": "b4-attestation-binding-v1",
+  "run_id": "20260722T085455Z",
+  "sandbox_policy": {
+    "networkAccess": false,
+    "type": "workspaceWrite"
+  },
+  "turn_ordinal": 1,
+  "turn_status": "interrupted-after-exact-attestation",
+  "workspace_file_count": 8
+}
