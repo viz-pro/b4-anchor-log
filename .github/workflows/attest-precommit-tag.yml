@@ -22,6 +22,11 @@ jobs:
       - name: Verify custody signature and record anchor
         shell: bash
         run: |
+          # actions/checkout resolves an annotated push tag to its peeled commit.
+          # Re-fetch the exact remote ref so tag verification sees the signed object.
+          git fetch --no-tags --force origin \
+            "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+
           sed 's/^/john@viz.pro /' keys/b4-custody-ed25519.pub > /tmp/b4-allowed-signers
           git -c gpg.format=ssh \
               -c gpg.ssh.allowedSignersFile=/tmp/b4-allowed-signers \

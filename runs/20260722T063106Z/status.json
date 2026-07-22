@@ -1,0 +1,9 @@
+{
+  "status": "superseded-before-exposure",
+  "reason": "The server event was durable, but actions/checkout peeled the annotated tag to a local commit ref before signature verification; no developer or inventory turn had started.",
+  "failed_server_event": {
+    "provider": "github-actions",
+    "workflow_run_id": "29897301876"
+  },
+  "replacement": "a fresh run using an exact remote annotated-tag refetch before verification"
+}
